@@ -5,19 +5,26 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import pojo.NewsMaker;
 import service.NewsMakerService;
 
 public class NewsMakerServiceTest {
-	private NewsMakerService newsMakerServiceTest = new NewsMakerService();
+	public static NewsMakerService newsMakerServiceTest = new NewsMakerService();
+	@BeforeClass
+	public static void before(){
+		System.out.println("@BeforeClassINNewsMakerService");
+	}
+	
 	@Test
 	public void test() {
+		System.out.println("checkAccount");
 		String account = "123";
 		boolean flag = true;
 		try {
-			flag = this.newsMakerServiceTest.checkAccount(account);
+			flag = newsMakerServiceTest.checkAccount(account);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -26,7 +33,8 @@ public class NewsMakerServiceTest {
 	}
 	@Test
 	public void testGetNewsMaker() throws Exception {
-		List<NewsMaker> newsMaker = this.newsMakerServiceTest.getAllNewsMakerInfo();
+		System.out.println("getAllNewsMakerInfo");
+		List<NewsMaker> newsMaker = newsMakerServiceTest.getAllNewsMakerInfo();
 		assertNotNull(newsMaker);
 	}
 
