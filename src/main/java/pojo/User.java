@@ -7,6 +7,7 @@ public class User {
 	private String registerTime;
 	private String logo;
 	private String state;
+	private String salt;
 	public User(String account, String password, String name, String registerTime, String logo) {
 		super();
 		this.account = account;
@@ -86,6 +87,16 @@ public class User {
 		this.registerTime = registerTime;
 		this.logo = logo;
 		this.state = state;
+	}
+
+
+	public String getSalt() {
+		return salt;
+	}
+
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 	
 	

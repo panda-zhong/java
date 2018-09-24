@@ -16,4 +16,6 @@ public interface UserDao {
 	public void setLogo(String account,String logo) throws SQLException;
 	public String getUserSize() throws SQLException;
 	public Map<String, String> getMonthSizeByYear(String year) throws SQLException;
+	public User getUserByAccount(String account) throws SQLException;
+	public void setEmail(String account, String email) throws SQLException; 
 }

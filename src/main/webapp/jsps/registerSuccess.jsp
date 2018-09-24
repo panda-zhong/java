@@ -18,7 +18,7 @@ createTime:2018年8月5日 上午11:40:46
 </body>
 <script type="text/javascript">
 	setTimeout(function(){
-		window.location.href = "/newsManage";
+		window.location.href = "${pageContext.request.contextPath}";
 	},3000)
 </script>
 </html>

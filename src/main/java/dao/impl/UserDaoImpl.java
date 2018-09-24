@@ -51,10 +51,11 @@ public class UserDaoImpl implements UserDao {
 		String password = user.getPassword();
 		String name = user.getName();
 		String logo = user.getLogo();
+		String salt = user.getSalt();
 		String Nowtime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		java.sql.Date mysqldate = java.sql.Date.valueOf(Nowtime);
 		// 获得当天日期年-月-日
-		sql = "insert INTO user(account,PASSWORD, name,logo,registerTime,state) VALUES(?,?,?,?,?,?);";
+		sql = "insert INTO user(account,PASSWORD, name,logo,registerTime,state,salt) VALUES(?,?,?,?,?,?,?);";
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, account);
 		preparedStatement.setString(2, password);
@@ -62,6 +63,7 @@ public class UserDaoImpl implements UserDao {
 		preparedStatement.setString(4, logo);
 		preparedStatement.setDate(5, mysqldate);
 		preparedStatement.setString(6, "1");
+		preparedStatement.setString(7, salt);
 		preparedStatement.execute();
 		return;
 	}
@@ -158,5 +160,39 @@ public class UserDaoImpl implements UserDao {
 			user_month_size.put(month, size);
 		}
 		return user_month_size;
+	}
+
+	@Override
+	public User getUserByAccount(String account) throws SQLException {
+		sql = "SELECT password,NAME,account,password,logo,registerTime,state,salt FROM user where account = ? ";
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, account);
+		ResultSet manageSet = preparedStatement.executeQuery();
+		while (manageSet.next()) {
+			String name = manageSet.getString("name");
+			String logo = manageSet.getString("logo");
+			String password = manageSet.getString("password");
+			String registerTime = manageSet.getString("registerTime");
+			String salt = manageSet.getString("salt");
+			String state = manageSet.getString("state");
+			// 0表示还未经过审核或者被封号
+			if ("0".equals(state))
+				return null;
+			User user = new User(account, password, name, registerTime, logo);
+			user.setSalt(salt);
+			return user;
+		}
+		return null;
+	}
+
+	@Override
+	public void setEmail(String account, String email) throws SQLException {
+		// TODO Auto-generated method stub
+		sql = "UPDATE User set email = ? where account = ?";
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, account);
+		preparedStatement.execute();
+		return;
 	}
 }

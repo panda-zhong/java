@@ -41,6 +41,15 @@ createTime:2018年8月11日 上午8:38:16
 					<input type="submit" value="修改头像" />
 				</form>
 			</p>
+			
+			<p>
+				邮箱：
+				<form action="${pageContext.request.contextPath}/user/modifyInfo/modifyEmail" method="post" >
+					<input type="text" id="email" name="email" value="${USERINSESSION.name}" />
+					<input type="submit" value="修改" />
+				</form>
+			</p>
+			
 			<a href="${pageContext.request.contextPath}/user/login/logout">
 				<button>注销</button>
 			</a>

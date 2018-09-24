@@ -3,6 +3,7 @@ package action;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import service.ApplyMessageService;
 import service.ManageService;
 import service.NewsMakerService;
 import service.UserService;
+import util.Encryption;
 
 @WebServlet(urlPatterns = "/register/*")
 public class RegisterAction extends HttpServlet {
@@ -75,8 +77,23 @@ public class RegisterAction extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+		case "checkCode":
+			this.checkCode(req,resp);
+			break;
 		default:
 			break;
+		}
+	}
+
+
+	private void checkCode(HttpServletRequest req, HttpServletResponse resp) throws UnsupportedEncodingException {
+		// TODO Auto-generated method stub
+		String user_code = req.getParameter("code");
+		String real_code = (String) session.getAttribute("CODEINSESSION");
+		if(real_code.equals(user_code)){
+			pw.print("1");
+		}else{
+			pw.print("0");
 		}
 	}
 

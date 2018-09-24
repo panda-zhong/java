@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,7 @@ import pojo.NewsMaker;
 import pojo.User;
 import service.ManageService;
 import service.NewsMakerService;
+import service.UserService;
 
 @WebServlet(urlPatterns = "/user/modifyInfo/*")
 public class ModifyInfo extends HttpServlet {
@@ -37,6 +39,7 @@ public class ModifyInfo extends HttpServlet {
 	PrintWriter pw = null;
 	String path = null;
 	private NewsMakerService newsMakerService = new NewsMakerService();
+	private UserService userService = new UserService();
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
@@ -68,10 +71,26 @@ public class ModifyInfo extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+		case "modifyEmail":
+			try {
+				this.modifyEmail(req,resp);
+			} catch (SQLException | MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		default:
 			break;
 		}
 		return;
+	}
+
+	private void modifyEmail(HttpServletRequest req, HttpServletResponse resp) throws SQLException, MessagingException, IOException {
+		// TODO Auto-generated method stub
+		User user = (User) session.getAttribute("USERINSESSION");
+		String email = req.getParameter("email");
+		String account = user.getAccount();
+		this.userService.setEmail(account,email);
+		resp.sendRedirect(path+"/jsps/user/modifyInfo.jsp");
 	}
 
 	private void modifyLogoAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {

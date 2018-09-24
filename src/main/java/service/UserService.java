@@ -4,16 +4,30 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import pojo.User;
+import util.EmailUtil;
+import util.Encryption;
 
 public class UserService {
 	private UserDao userDao = new UserDaoImpl();
+	
 	public User checkLogin(String account,String password) throws SQLException{
-		return userDao.checkLogin(account, password);
+		User user = this.userDao.getUserByAccount(account);
+		if(user!=null){
+			String dateBasePassword = user.getPassword();
+			user.setPassword(password);
+			if(!Encryption.checkPassword(user, dateBasePassword)){
+				return null;
+			}
+		}
+		return user;
 	}
 	public void register(User user) throws SQLException{
+		Encryption.encryptPasswd(user);
 		userDao.register(user);
 		return;
 	}
@@ -48,5 +62,10 @@ public class UserService {
 	
 	public Map<String,String> getMonthSizeByYear(String year) throws SQLException {
 		return this.userDao.getMonthSizeByYear(year);
+	}
+	public void setEmail(String account, String email) throws SQLException, MessagingException {
+		// TODO Auto-generated method stub
+		this.userDao.setEmail(account,email);
+		EmailUtil.sendEmail(email);
 	}
 }

@@ -143,7 +143,7 @@
 				border-color: #e0b722;
 			}
 			
-			.passwd img {
+			.passwd #img {
 				width: 50px;
 				height: 50px;
 				border-radius: 100%;
@@ -174,8 +174,6 @@ createTime:2018年8月16日 上午11:56:22
 				</div>
 				<form class="wrapper" action="${pageContext.request.contextPath}/register/in" method="post" enctype="multipart/form-data" style="display: inline-block;">
 					<div id="register">
-						<h3>注册</h3>
-
 						<div class="name">
 							<select name="kind" id="kind" style="width: 50%; height: 40px; margin-left: 30%;">
 								<option value="1">管理员</option>
@@ -200,9 +198,12 @@ createTime:2018年8月16日 上午11:56:22
 							<label>密码：</label>
 						</div>
 						<div class="passwd">
-							<input type="file" name="logo" onchange="show(&quot;img&quot;,&quot;logo&quot;)" id="logo" style="padding-left: 20%;">
-							<label>头像：</label>
-							<img src="http://p1.so.qhimgs1.com/bdr/200_200_/t01eb30ef52d1ff5fa1.jpg" alt="加载失败" id="img">
+							<input type="text" name="code" id="code" >
+							<label>验证码：</label>
+							<span id="codeTip">
+								
+							</span>
+							<img src="${pageContext.request.contextPath}/getCodeImage?code=" id="codeImage" style="cursor: pointer;" />
 						</div>
 						<div class="submit">
 							<button class="dark" type="submit">注册</button>
@@ -217,12 +218,14 @@ createTime:2018年8月16日 上午11:56:22
 		$(document).ready(function() {
 			$('.veen .wrapper').addClass('move');
 			$('.body').css('background', '#e0b722');
-
+			$("#codeImage").on('click',function(){
+				$("#codeImage").attr('src',"${pageContext.request.contextPath}/getCodeImage?code="+Math.random());
+			})
 			$("#account").blur(function() {
 				var account = this.value;
 				var kind = document.getElementById("kind").value;
 				$.ajax({
-					type: "get",
+					type: "post",
 					url: "${pageContext.request.contextPath}/register/checkAccount?account=" + account + "&kind=" + kind,
 					success: function(data) {
 						var flag = (data);
@@ -238,6 +241,29 @@ createTime:2018年8月16日 上午11:56:22
 					async: true
 				});
 			})
+			$("#code").blur(function() {
+				var code = this.value;
+				$.ajax({
+					type: "post",
+					url: "${pageContext.request.contextPath}/register/checkCode",
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					data:{
+						'code':code
+					},
+					success: function(data) {
+						var flag = (data);
+						console.log(data)
+						if(data == "0") {
+							document.getElementById("codeTip").innerText = "验证码不正确!";
+							setTimeout(function() {
+								document.getElementById("codeTip").innerText = "";
+							}, 1000)
+						}
+					},
+					async: true
+				});
+			})
+			
 		});
 
 		function show(imgID, iptfileupload) { // 接收传过来的img标签的ID 和 当前input的框的ID
