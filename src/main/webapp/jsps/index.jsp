@@ -18,7 +18,7 @@
 				width: 100%;
 				left: 0px;
 				top: 0px;
-				opacity: 0.7;
+				opaci					ty: 0.7;
 				display: none;
 				background-color: rgb(230, 245, 255);
 			}
@@ -70,7 +70,7 @@
 			.hide-center #formbody {
 				margin: 0 auto;
 				width: 300px;
-				height: 245px;
+				height: 260px;
 				background-color: #1e1e1e;
 				border-bottom-left-radius: 10px;
 				border-bottom-right-radius: 10px;
@@ -331,7 +331,7 @@ createTime:2018年8月3日 上午9:57:51
 				<div id="formfoot">
 					<button id="BSignIn">登录</button>
 					<p id="resultTip" style="color: white;">
-					
+						<a href="/news/jsps/modifyPassword.jsp"  target="_blank">管理员忘记密码</a>
 					</p>
 				</div>
 			</div>
@@ -343,7 +343,7 @@ createTime:2018年8月3日 上午9:57:51
 		var action = null;
 		var kind = '1';
 		var kindName = null;
-
+		
 		function changKind() {
 			//		id="1">我是管理员
 			//		id="2">我是普通用户

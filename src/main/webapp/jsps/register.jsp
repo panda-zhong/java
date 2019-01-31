@@ -197,6 +197,10 @@ createTime:2018年8月16日 上午11:56:22
 							<input type="password" name="password">
 							<label>密码：</label>
 						</div>
+						<div class="mail">
+							<input type="email" name="email">
+							<label>邮箱：</label>
+						</div>
 						<div class="passwd">
 							<input type="text" name="code" id="code" >
 							<label>验证码：</label>

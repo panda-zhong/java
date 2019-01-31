@@ -13,4 +13,6 @@ public interface ManageDao {
 	public List<Manage> getAllManageInfo() throws SQLException;
 	public void setName(String account,String name) throws SQLException;
 	public void setLogo(String account,String logo) throws SQLException;
+	public void setEmail(String account,String email) throws SQLException;
+	public void setPassword(String email,String password) throws SQLException;
 }

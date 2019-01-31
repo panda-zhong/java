@@ -24,7 +24,7 @@ public class ManageDaoImpl implements ManageDao {
 	@Override
 	public Manage checkLogin(String account, String password) throws SQLException {
 		// TODO Auto-generated method stub
-		sql = "SELECT NAME,account,password,logo,registerTime,state FROM Manage where account = ? and password = ?;";
+		sql = "SELECT NAME,account,password,logo,registerTime,state,email FROM Manage where account = ? and password = ?;";
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, account);
 		preparedStatement.setString(2, password);
@@ -34,10 +34,12 @@ public class ManageDaoImpl implements ManageDao {
 			String logo = manageSet.getString("logo");
 			String registerTime = manageSet.getString("registerTime");
 			String state = manageSet.getString("state");
+			String email = manageSet.getString("email");
 			// 0表示还未经过审核或者被封号
 			if ("0".equals(state))
 				return null;
 			Manage manage = new Manage(account, password, name, registerTime, logo);
+			manage.setEmail(email);
 			return manage;
 		}
 		return null;
@@ -50,10 +52,11 @@ public class ManageDaoImpl implements ManageDao {
 		String password = manage.getPassword();
 		String name = manage.getName();
 		String logo = manage.getLogo();
+		String email = manage.getEmail();
 		String Nowtime = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		java.sql.Date mysqldate = java.sql.Date.valueOf(Nowtime);
 		// 获得当天日期年-月-日
-		sql = "insert INTO manage(account,PASSWORD, name,logo,registerTime,state) VALUES(?,?,?,?,?,?);";
+		sql = "insert INTO manage(account,PASSWORD, name,logo,registerTime,state，email) VALUES(?,?,?,?,?,?,?);";
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, account);
 		preparedStatement.setString(2, password);
@@ -61,6 +64,7 @@ public class ManageDaoImpl implements ManageDao {
 		preparedStatement.setString(4, logo);
 		preparedStatement.setDate(5, mysqldate);
 		preparedStatement.setString(6, "0");
+		preparedStatement.setString(7, email);
 		preparedStatement.execute();
 		return;
 	}
@@ -128,6 +132,28 @@ public class ManageDaoImpl implements ManageDao {
 		preparedStatement = connect.prepareStatement(sql);
 		preparedStatement.setString(1, logo);
 		preparedStatement.setString(2, account);
+		preparedStatement.execute();
+		return;
+	}
+
+	@Override
+	public void setEmail(String account, String email) throws SQLException {
+		// TODO Auto-generated method stub
+		sql = "UPDATE manage set email = ? where account = ?";
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, account);
+		preparedStatement.execute();
+		return;
+	}
+
+	@Override
+	public void setPassword(String email, String password) throws SQLException {
+		// TODO Auto-generated method stub
+		sql = "UPDATE manage set password = ? where email = ?";
+		preparedStatement = connect.prepareStatement(sql);
+		preparedStatement.setString(1, password);
+		preparedStatement.setString(2, email);
 		preparedStatement.execute();
 		return;
 	}

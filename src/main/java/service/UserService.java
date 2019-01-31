@@ -66,6 +66,5 @@ public class UserService {
 	public void setEmail(String account, String email) throws SQLException, MessagingException {
 		// TODO Auto-generated method stub
 		this.userDao.setEmail(account,email);
-		EmailUtil.sendEmail(email);
 	}
 }

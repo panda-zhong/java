@@ -16,7 +16,9 @@ public class ManageService {
 		manageDao.register(manage);
 		return;
 	}
-	
+	public void setPassowrd(String email,String newPassword) throws SQLException{
+		manageDao.setPassword(email, newPassword);
+	}
 	public boolean checkAccount(String account) throws SQLException{
 		return manageDao.checkAccount(account);
 	}
@@ -42,7 +44,9 @@ public class ManageService {
 	public void setName(String account,String name) throws SQLException{
 		this.manageDao.setName(account, name);
 	}
-	
+	public void setEmail(String account,String email) throws SQLException{
+		this.manageDao.setEmail(account, email);
+	}
 	/**
 	 * @param account
 	 * @param logo

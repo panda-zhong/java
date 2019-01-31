@@ -39,7 +39,7 @@ public class ModifyInfo extends HttpServlet {
 		// TODO Auto-generated method stub
 		super.init(config);
 	}
-
+	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String uri = req.getRequestURI();
@@ -65,10 +65,30 @@ public class ModifyInfo extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+		case "modifyEmail":
+			try {
+				this.modifyEmailAction(req,resp);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
 		default:
 			break;
 		}
 		return;
+	}
+
+	private void modifyEmailAction(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
+		// TODO Auto-generated method stub
+		String email = req.getParameter("email");
+		Manage currentManage = (Manage) session.getAttribute("MANAGEINSESSION");
+		String account = currentManage.getAccount();
+		currentManage.setEmail(email);
+		this.manageService.setName(account, email);
+		session.setAttribute("MANAGEINSESSION", currentManage);
+		pw.print(true);
 	}
 
 	private void modifyLogoAction(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {

@@ -73,7 +73,7 @@ public class Login extends HttpServlet{
 	private void checkSessionAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if(session.getAttribute("NEWSMAKERINSESSION")!= null){
-			req.getRequestDispatcher("/jsps/newsMaker/index.jsp").forward(req, resp);
+			resp.sendRedirect(path+"/newsMaker/index/myNews");
 		}else{
 			resp.sendRedirect(path+"/jsps/index.jsp");
 		}

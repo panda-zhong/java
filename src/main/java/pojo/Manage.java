@@ -7,7 +7,7 @@ public class Manage {
 	private String registerTime;
 	private String logo;//保存图片名称
 	private String state;
-	
+	private String email;
 	@Override
 	public String toString() {
 		return "Manage [account=" + account + ", password=" + password + ", name=" + name + ", registerTime="
@@ -85,6 +85,12 @@ public class Manage {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

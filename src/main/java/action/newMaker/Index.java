@@ -1,11 +1,14 @@
 package action.newMaker;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,11 +17,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.junit.Test;
+
 import pojo.ApplyMessage;
 import pojo.News;
 import pojo.NewsMaker;
 import service.ApplyMessageService;
 import service.NewsService;
+import util.EMailTool;
+import util.EmailUtil;
 
 @WebServlet(urlPatterns="/newsMaker/index/*")
 public class Index extends HttpServlet{
@@ -60,9 +67,26 @@ public class Index extends HttpServlet{
 		case "toModifyNews":
 			this.toModifyNewsAction(req, resp);
 			break;
+		case "getEmailCode":
+			try {
+				this.getEmailCodeAction(req, resp);
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void getEmailCodeAction(HttpServletRequest req, HttpServletResponse resp) throws MessagingException {
+		// TODO Auto-generated method stub
+		String email = "287595523@qq.com";
+		int code = (int) (Math.random()*899999+100000);//100000~999999
+		EmailUtil.sendCodeEmail(email, code+"");
+		session.setAttribute("PASSWORDCODE", code);
+		pw.print(code);
 	}
 
 	private void toModifyNewsAction(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -72,7 +96,7 @@ public class Index extends HttpServlet{
 		for (News news : newsList) {
 			if(news.getId().equals(id)){
 				session.setAttribute("MODIFYNEWSINSESSON", news);
-				req.getRequestDispatcher("/jsps/newsMaker/modifyNews.jsp").forward(req, resp);
+				resp.sendRedirect(path+"/jsps/newsMaker/modifyNews.jsp");
 				return;
 			}
 		}
@@ -85,7 +109,7 @@ public class Index extends HttpServlet{
 		String newsMakerAccount = newsMaker.getAccount();
 		List<News> newsList = this.newsService.getAllNews(newsMakerAccount);
 		session.setAttribute("MYNEWSINSESSION", newsList);
-		req.getRequestDispatcher("/jsps/newsMaker/myNews.jsp").forward(req, resp);
+		resp.sendRedirect(path+"/jsps/newsMaker/myNews.jsp");
 	}
 
 }

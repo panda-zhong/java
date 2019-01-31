@@ -171,10 +171,12 @@ public class RegisterAction extends HttpServlet {
 		String account = formFieldMap.get("account");
 		String password = formFieldMap.get("password");
 		String name = formFieldMap.get("name");
+		String email = formFieldMap.get("email");
 		String logo = fileName;
 		switch (kind) {
 		case "1":
 			Manage manage = new Manage(account, password, name, logo);
+			manage.setEmail(email);
 			manageService.register(manage);
 			this.applyMessageService.addNewApply(account, kind);// 1是管理员 3是新闻发布员
 			session.setAttribute("REGISTERMESSAGEINSESSION", "申请管理员成功！已提交申请,请等待其他管理员处理");

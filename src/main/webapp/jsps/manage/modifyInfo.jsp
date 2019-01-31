@@ -155,6 +155,16 @@ createTime:2018年8月18日 下午9:20:10
 										</div>
 
 									</div>
+									
+									<div class="control-group">
+										<label class="control-label" for="email">邮箱：</label>
+										<div class="controls">
+											<input type="text" id="email" name="email"  value="${MANAGEINSESSION.email}" />
+											<button class="btn btn-success" id="changeEmail">修改</button>
+										</div>
+
+									</div>
+									
 									<form action="${pageContext.request.contextPath}/manage/modifyInfo/modifyLogo" class="form-horizontal" method="post" nctype="multipart/form-data">
 										<fieldset>
 											<div class="control-group">
@@ -203,5 +213,21 @@ createTime:2018年8月18日 下午9:20:10
 				async:true
 			});
 		})
+		$("#changeEmail").on("click",function(){
+			var email = $("[name=email]").val();
+			$.ajax({
+				type:"post",
+				url:"${pageContext.request.contextPath}/manage/modifyInfo/modifyEmail",
+				data:{
+					"email":email
+				},
+				dataType:'json',
+				success:function(result){
+					location.reload();
+				},
+				async:true
+			});
+		})
+		
 	</script>
 </html>
