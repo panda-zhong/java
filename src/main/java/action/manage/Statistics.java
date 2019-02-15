@@ -61,10 +61,23 @@ public class Statistics extends HttpServlet {
 				e.printStackTrace();
 			}
 			break;
+		case "prepareFile":
+			try {
+				this.prepareFileAction(req,resp);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		default:
 			break;
 		}
 		return;
+	}
+
+	private void prepareFileAction(HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
+		// TODO Auto-generated method stub
+		this.statisticService.prepareStisticCommentFile();
 	}
 
 	private void getNewsSizeByMonth(HttpServletRequest req, HttpServletResponse resp) throws SQLException {

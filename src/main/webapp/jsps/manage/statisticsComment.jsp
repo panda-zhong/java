@@ -123,7 +123,7 @@ createTime:2018年8月18日 下午7:41:09
 						</ul>
 
 					</div>
-				<div class="main-area dashboard">
+					<div class="main-area dashboard">
 						<div class="alert alert-info">
 							<a class="close" data-dismiss="alert" href="#">x</a>
 
@@ -135,7 +135,12 @@ createTime:2018年8月18日 下午7:41:09
 								<div class="slate">
 
 									<div class="page-header">
-										<h2><i class="icon-signal pull-right"></i>评论统计</h2>
+										<h2><i class="icon-signal pull-right"></i>评论统计
+											<i class="pull-right">
+												<a class="btn btn-small btn-success" href="/basic/html/download/commonStatistics.xls">2018评论统计下载</a>
+											</i>
+										
+										</h2>
 									</div>
 									<div id="placeholder" style="height: 400px;"></div>
 
@@ -171,6 +176,18 @@ createTime:2018年8月18日 下午7:41:09
 		$(document).on('ready', function() {
 			var thisYear = new Date().getFullYear();
 			getCommentSize();
+			statisticsComments();
+
+			function statisticsComments() {
+				$.ajax({
+					type: "get",
+					url: "${pageContext.request.contextPath}/manage/statistics/prepareFile",
+					data: {},
+					dataType: "json",
+					success: function(result) {},
+					async: true
+				});
+			}
 
 			function getCommentSize() {
 				$.ajax({
@@ -179,18 +196,18 @@ createTime:2018年8月18日 下午7:41:09
 					dataType: "json",
 					success: function(result) {
 						var resultMap = {
-							month01:0,
-							month02:0,
-							month03:0,
-							month04:0,
-							month05:0,
-							month06:0,
-							month07:0,
-							month08:0,
-							month09:0,
-							month10:0,
-							month11:0,
-							month12:0,
+							month01: 0,
+							month02: 0,
+							month03: 0,
+							month04: 0,
+							month05: 0,
+							month06: 0,
+							month07: 0,
+							month08: 0,
+							month09: 0,
+							month10: 0,
+							month11: 0,
+							month12: 0,
 						};
 						resultMap = result
 						setPlot(resultMap)
@@ -218,7 +235,7 @@ createTime:2018年8月18日 下午7:41:09
 					label: "用户评论数目",
 					data: [
 						[new Date(thisYear, 0), month01],
-						[new Date(thisYear, 1),  month02],
+						[new Date(thisYear, 1), month02],
 						[new Date(thisYear, 2), month03],
 						[new Date(thisYear, 3), month04],
 						[new Date(thisYear, 4), month05],
@@ -234,12 +251,12 @@ createTime:2018年8月18日 下午7:41:09
 					xaxis: {
 						mode: "time",
 						timeformat: "%y/%m",
-						min:new Date(thisYear,1),
-						max:new Date(thisYear, 12)
+						min: new Date(thisYear, 1),
+						max: new Date(thisYear, 12)
 					},
 					yaxis: {
-						min:0,
-						autoscaleMargin:0.25
+						min: 0,
+						autoscaleMargin: 0.25
 					}
 				});
 			}
